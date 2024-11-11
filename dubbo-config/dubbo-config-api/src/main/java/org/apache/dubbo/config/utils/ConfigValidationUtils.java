@@ -213,8 +213,8 @@ public class ConfigValidationUtils {
                 }
                 if (!RegistryConfig.NO_AVAILABLE.equalsIgnoreCase(address)) {
                     Map<String, String> map = new HashMap<>();
-                    AbstractConfig.appendParameters(map, application);
                     AbstractConfig.appendParameters(map, config);
+                    AbstractConfig.appendParameters(map, application);
                     map.put(PATH_KEY, RegistryService.class.getName());
                     AbstractInterfaceConfig.appendRuntimeParameters(map);
                     if (!map.containsKey(PROTOCOL_KEY)) {
