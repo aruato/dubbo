@@ -201,20 +201,13 @@ public class ServiceInstancesChangedListener {
             hasEmptyMetadata = false;
         }
 
-        Map<String, Map<Integer, Map<Set<String>, Object>>> protocolRevisionsToUrls = new HashMap<>();
         Map<String, List<ProtocolServiceKeyWithUrls>> newServiceUrls = new HashMap<>();
         for (Map.Entry<ServiceInfo, Set<String>> entry : localServiceToRevisions.entrySet()) {
             ServiceInfo serviceInfo = entry.getKey();
             Set<String> revisions = entry.getValue();
 
-            Map<Integer, Map<Set<String>, Object>> portToRevisions =
-                    protocolRevisionsToUrls.computeIfAbsent(serviceInfo.getProtocol(), k -> new HashMap<>());
-            Map<Set<String>, Object> revisionsToUrls =
-                    portToRevisions.computeIfAbsent(serviceInfo.getPort(), k -> new HashMap<>());
-            Object urls = revisionsToUrls.computeIfAbsent(
-                    revisions,
-                    k -> getServiceUrlsCache(
-                            revisionToInstances, revisions, serviceInfo.getProtocol(), serviceInfo.getPort()));
+            Object urls = getServiceUrlsCache(
+                    revisionToInstances, revisions, serviceInfo.getProtocol(), serviceInfo.getPort());
 
             List<ProtocolServiceKeyWithUrls> list =
                     newServiceUrls.computeIfAbsent(serviceInfo.getPath(), k -> new LinkedList<>());
